@@ -21,3 +21,11 @@ or
 ```bash
 npm run start
 ```
+
+## Running local redis servers
+
+In order to test locally, you need 2 redis servers. 1 for session caching, and another for the pub/sub. Run this twice with 2 different PUBLIC_PORTs.
+
+```bash
+docker run --name <REDIS_SERVER_NAME> -p <PUBLIC_PORT>:6379 -d redis
+```

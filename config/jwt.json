@@ -1,0 +1,5 @@
+{
+    "algo": "HS256",
+    "secret": "secret",
+    "ttl": 3600
+}

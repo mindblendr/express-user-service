@@ -2,7 +2,7 @@ const router = require('express').Router();
 const jwt = require('../bin/jwt');
 const session_cache = require('../bin/session_cache');
 
-router.get('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
     const user_data = {
         id: 1,
         username: 'test1',
@@ -10,13 +10,16 @@ router.get('/login', async (req, res) => {
         user_type: 'user'
     };
 
-    await session_cache.set('session_' + user_data.id, user_data, parseInt(process.env.SESSION_EXP));
-    res.send(jwt.encode(user_data, parseInt(process.env.SESSION_EXP)));
-    // res.send(req.user_data);
+    await session_cache.set('sessions', user_data, parseInt(process.env.SESSION_EXP));
+    const token = jwt.encode(user_data);
+    res.send({
+        data: { token },
+        status: 1
+    });
 });
 
 module.exports = {
     router,
     prefix: '/user',
-    middlewares: ['auth-user']
+    middlewares: null
 }
