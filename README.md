@@ -32,8 +32,8 @@ docker run --name <REDIS_SERVER_NAME> -p <PUBLIC_PORT>:6379 -d redis
 
 ## Using sequelize-cli with MAIN_DB_URL
 
-When using the sequelize-cli, you may use the --url parameter to execute your command.
+You can use sequelize-cli for development.
 
 ```bash
-sequelize-cli db:migrate --url "mysql://root@localhost:3306/sample_db"
+sequelize-cli db:migrate
 ```
