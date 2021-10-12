@@ -8,7 +8,8 @@ module.exports = {
     get: async key => {
         return JSON.parse(await redisClient.getAsync(key));
     },
-    set: async (key, value, exp = 0) => {
+    set: async (key, value) => {
+        const exp = parseInt(process.env.SESSION_EXP);
         await redisClient.setAsync(key, JSON.stringify(value));
         if (exp > 0) redisClient.expire(key, exp);
     }

@@ -8,8 +8,9 @@ const port = process.env.PORT || 3001;
 const cors = require('cors');
 
 app.use(cors());
+app.use(express.json());
 initRoutes(app);
 
-server.listen(port, () =>
-    console.log(`Listening on port ${port}!`),
-);
+server.listen(port, async () => {
+    console.log(`Listening on port ${port}!`);
+});

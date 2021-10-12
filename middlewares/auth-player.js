@@ -7,10 +7,12 @@ module.exports = async (req, res, next) => {
         if (authorization) {
             var token = authorization.split(' ');
             if (token.length == 2 && token[0] == 'Bearer') {
-                const decoded = jwt.decode(token[1]);
-                req.user_data = await session_cache.get('session_' + decoded.id);
-                if (req.user_data) {
-                    return next();
+                const login = jwt.decode(token[1]);
+                if (login.user_type == 'player') {
+                    req.user_data = await session_cache.get('session_' + login.id);
+                    if (req.user_data) {
+                        return next();
+                    }
                 }
             }
         }

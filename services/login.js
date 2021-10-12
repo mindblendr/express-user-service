@@ -1,25 +1,36 @@
 const router = require('express').Router();
 const jwt = require('../bin/jwt');
 const session_cache = require('../bin/session_cache');
+const { Login } = require('../db/models')
+const bcrypt = require('bcrypt');
 
 router.post('/login', async (req, res) => {
-    const user_data = {
-        id: 1,
-        username: 'test1',
-        status: 1,
-        user_type: 'user'
-    };
+    try {
+        const { username, password } = req.body;
+        let login = await Login.findOne({
+            where: { username }
+        });
 
-    await session_cache.set('sessions', user_data, parseInt(process.env.SESSION_EXP));
-    const token = jwt.encode(user_data);
-    res.send({
-        data: { token },
-        status: 1
-    });
+        if (login && bcrypt.compareSync(password, login.password)) {
+            const { id, username, status, user_type } = login;
+            const login_data = { id, username, status, user_type };
+
+            await session_cache.set('session_' + login_data.id, login_data);
+            const token = jwt.encode(login_data);
+            return res.send({
+                data: { token },
+                status: 1
+            });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+
+    return res.status(401).send({ status: 0 });
 });
 
 module.exports = {
     router,
-    prefix: '/user',
+    prefix: '/',
     middlewares: null
 }
