@@ -2,14 +2,13 @@ const router = require('express').Router();
 const { Login, Player } = require('../db/models');
 
 router.get('/', async (req, res) => {
-    return res.send({
-        data: await Login.findAll(),
-        status: 1
-    });
     try {
         return res.send({
-            data: await Login.findAll({
-                include: Profile
+            data: await Login.findOne({
+                include: {
+                    model: Player,
+                    required: false
+                }
             }),
             status: 1
         });

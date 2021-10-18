@@ -9,6 +9,8 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
+			Login.hasOne(models.Player, { foreignKey: 'login_id', onDelete: 'cascade', });
+			Login.hasOne(models.Admin, { foreignKey: 'login_id', onDelete: 'cascade', });
 		}
 	};
 	Login.init({
@@ -24,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.STRING(10)
 		},
 		status: {
-			type: DataTypes.BOOLEAN,
+			type: DataTypes.TINYINT(1),
 			allowNull: false
 		},
 		deleted_at: {
