@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
 	Login.init({
 		username: {
 			type: DataTypes.STRING,
-			allowNull: false
+			allowNull: false,
+			unique: true
 		},
 		password: {
 			type: DataTypes.STRING,
@@ -27,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		status: {
 			type: DataTypes.TINYINT(1),
+			defaultValue: 1,
 			allowNull: false
 		},
 		deleted_at: {
@@ -40,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
 		updatedAt: 'updated_at',
 		deletedAt: 'deleted_at',
 		freezeTableName: true,
-		paranoid: true,
+		paranoid: true
 	});
 	return Login;
 };
