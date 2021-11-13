@@ -26,7 +26,7 @@ router.post('/register', async (req, res) => {
             });
         }
 
-        res.send({
+        return res.send({
             data: { username, password, firstname, lastname, role },
             status: 1
         });
